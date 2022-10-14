@@ -10,6 +10,7 @@
 #include <Analyzer/Passes/CountDistinctPass.h>
 #include <Analyzer/Passes/CustomizeFunctionsPass.h>
 #include <Analyzer/Passes/OrderByLimitByDuplicateEliminationPass.h>
+#include <Analyzer/Passes/FuseFunctionsPass.h>
 
 #include <IO/WriteHelpers.h>
 #include <IO/Operators.h>
@@ -136,6 +137,9 @@ void addQueryTreePasses(QueryTreePassManager & manager)
 
     manager.addPass(std::make_shared<OrderByTupleEliminationPass>());
     manager.addPass(std::make_shared<OrderByLimitByDuplicateEliminationPass>());
+
+    if (settings.optimize_syntax_fuse_functions)
+        manager.addPass(std::make_shared<FuseFunctionsPass>());
 }
 
 }
